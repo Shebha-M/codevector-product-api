@@ -1,12 +1,14 @@
 const pool = require("./db");
 
-function getRandomCategory() {
+function getRandomCategory() 
+{
   const categories = ["electronics", "fashion", "books", "food", "sports"];
   return categories[Math.floor(Math.random() * categories.length)];
 }
 
 async function seedData() {
-  try {
+  try 
+  {
     const batchSize = 1000;
     const total = 200000;
 
@@ -25,13 +27,13 @@ async function seedData() {
         INSERT INTO products (name, category, price)
         VALUES ${values.join(",")}
       `;
-
       await pool.query(query);
       console.log(`Inserted ${i + batchSize} products`);
     }
 
     console.log("DONE 🚀");
-  } catch (err) {
+  } 
+  catch (err) {
     console.log(err);
   }
 }

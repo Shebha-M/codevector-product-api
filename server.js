@@ -8,43 +8,45 @@ const app = express();
 //fetchng data
 app.get("/products", async (req, res) => {
   try {
-    // 1. Read query params from URL
+    // Read query params from URL
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
     const category = req.query.category;
 
-    // 2. Calculate OFFSET
+    // Calculating OFFSET
     const offset = (page - 1) * limit;
 
-    // 3. Base query
+    //Base query
     let query = "SELECT * FROM products";
     let values = [];
 
-    // 4. If category filter exists
-    if (category) {
+    //If category filter exists
+    if (category) 
+    {
       values.push(category);
       query += ` WHERE category = $${values.length}`;
     }
 
-    // 5. Add sorting + pagination
+    // Add sorting + paginaton
     values.push(limit);
     query += ` ORDER BY id DESC LIMIT $${values.length}`;
-
     values.push(offset);
     query += ` OFFSET $${values.length}`;
 
-    // 6. Run query
+    //    Run query
     const result = await pool.query(query, values);
 
-    // 7. Send response
-    res.json({
+    //Sending response
+    res.json(
+    {
       page,
       limit,
       count: result.rows.length,
       data: result.rows,
     });
 
-  } catch (err) {
+  } 
+  catch (err){
     console.log(err);
     res.status(500).send("Server error");
   }
@@ -67,7 +69,8 @@ app.get("/products-cursor", async (req, res) => {
 
     let values = [];
 
-    if (category) {
+    if (category) 
+    {
       values.push(category);
       query += ` AND category = $${values.length}`;
     }
@@ -85,7 +88,6 @@ app.get("/products-cursor", async (req, res) => {
     `;
 
     const result = await pool.query(query, values);
-
     let nextCursor = null;
 
     if (result.rows.length > 0) {
