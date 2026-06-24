@@ -116,11 +116,12 @@ app.get("/", async (req, res) => {
   catch (err) 
   {
     console.log(err);
-    res.status(500).send("Database error");      //500 -internal server error
+    res.status(500).send("Database error");      //500 -internal server error is
   }
 });
 
-app.listen(5000, () => 
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => 
 {
-  console.log("Server running on port 5000");
+  console.log(`Server running on port ${PORT}`);
 });
